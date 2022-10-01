@@ -6,16 +6,15 @@ import axios from "axios";
 
 
 export const LoginPage=()=>{
-    const [userName,setUserName]=useState();
+    const [userId,setUserId]=useState();
     const [password,setPassword]=useState();
     const navigator=useNavigate();
     
-   
-    const signIn=()=>
+    const createAccount=()=>
     {
-        axios.post("http://localhost:3002/customer/createAccount",
+        axios.post("http://localhost:3002/employ/createAccount",
         {
-            userName,
+            userId,
             password
         }).then((res)=>{console.log("response",res)})
     }
@@ -28,12 +27,12 @@ export const LoginPage=()=>{
         </div>
         <div style={{width:"30%",padding:"64px"}}>
            <div style={{marginTop:"32px",textAlign:"left"}}> User Name:</div>
-           <input type="text" style={{marginTop:"16px",width:'100%'}} onChange={(e)=>{setUserName(e.target.value)}}/>
+           <input type="text" style={{marginTop:"16px",width:'100%'}} onChange={(e)=>{setUserId(e.target.value)}}/>
            <div style={{marginTop:"32px",textAlign:"left"}}> Pass Word:</div>
            <input type="password" style={{marginTop:"16px",width:"100%"}} onChange={(e)=>{setPassword(e.target.value)}}/>
            <div style={{marginTop:"32px",display:"flex",justifyContent:'space-between'}}>
-           <button onClick={()=>{signIn()}}> Sign In</button>
-           <button>Create Account</button>
+           <button > Sign In</button>
+           <button onClick={()=>{createAccount()}}>Create Account</button>
            </div>
         </div>
         </div>

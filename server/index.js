@@ -8,25 +8,26 @@ app.use(cors());
 app.use(express.json())
 
 // Route to get all posts
-app.post("/customer/createAccount", (req,res)=>{
-    let val=null
+app.post("/employ/createAccount", (req,res)=>{
+   
     try
     {
-        console.log("Q send")
-    db.query("SELECT * FROM public.usersdetails", (err,result)=>{
+        console.log(req,"Request")
+        db.query(`INSERT INTO CustService.EmployeeLogin (EmpID,EmpPassword,EmpStatus)  VALUES ( ${req.body.userId},${req.body.password},'active' );`, (err,result)=>{
         if(err) {
         console.log(err)
+        res.status=500;
+        return res.send("creation failure");
         } 
-    val=result
+        res.send("account created success fully");
    
     });  
 }
 catch(e)
 {
-    console.log("Erppr",e)
+    console.log("Error",e)
 }
-console.log(val,"req.data",req.data);
-res.send("Hello World");
+
 });
 
 // Route to get one post

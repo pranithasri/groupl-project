@@ -1,13 +1,12 @@
 const mysql = require('mysql')
 
 const db = mysql.createConnection({
-host: "127.0.0.1",
-user: "postgres",
-password: "postgres",
-database:"postgres" ,
-port :"5432"
+host: "database-1.cgihgqa4vvpv.us-east-1.rds.amazonaws.com",
+user: "bitswilp",
+password: "Voltas1001",
+database:"CustService" ,
+port :"3306"
 })
-
 
 db.connect((err)=>{
     if(err)
