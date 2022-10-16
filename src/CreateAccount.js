@@ -1,14 +1,35 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import logo from './logo.svg';
 import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
 export const CreateAccount=()=> {
-    const [userId,setUserId]=useState("");
-    const [password,setPassword]=useState("");
-    const [userType,setUserType]=useState('Employee')
-    const [confirmPassword,setConfirmPassword]=useState("")
+    const [userType,setUserType]=useState("employee");
+   const [userDetails,setUserDetails]=useState(userType==="employee"?{
+    "Employee Id":"",
+    "First Name":"", 
+    "Middle Name":"", 
+    "Last Name":"",
+    "Email":"",
+    "Contact Number":"",
+    "Department":"", 
+    "SupervisorID":"",
+    "Address":"",
+    "Password":"",
+   "DOJ":null
+   
+   }:{
+    "Customer Id":"",
+    "First Name":"", 
+    "Middle Name":"", 
+    "Last Name":"",
+    "Email":"",
+    "Contact Number":"",
+    "Address":"",
+    "Password":"",
+   "DOB":null
+   })
     const navigator=useNavigate()
     const selectTabStyle={
         color:"#61dafb",
@@ -19,15 +40,32 @@ export const CreateAccount=()=> {
        }
        const createAccount=()=>
        {
-        navigator("/")
-           axios.post("http://localhost:3002/employ/createAccount",
+        // navigator("/")
+           axios.post("http://localhost:3002/createAccount",
            {
-               userId,
-               password
-           }).then((res)=>{console.log("response",res)})
+               userDetails,
+               userType
+           }).then((res)=>{if(res.status===200)
+        {
+             navigator("/")
+        }})
        }
+   
+       useEffect(()=>{
+        setUserDetails({
+            "Customer Id":"",
+            "First Name":"", 
+            "Middle Name":"", 
+            "Last Name":"",
+            "Email":"",
+            "Contact Number":"",
+            "Address":"",
+            "Password":"",
+           "DOB":null
+           })
+       },[])
   return (
-    <>
+    <div >
     <div>CreateAccount</div>
     <div style={{display:"flex",alignItems:'center',height:'100%'}}>
     <div style={{width:"70%"}}>
@@ -35,19 +73,43 @@ export const CreateAccount=()=> {
     </div>
     <div style={{width:"30%",padding:"64px"}}>
         <div style={{display:'flex',justifyContent:'space-between'}}>
-            <div onClick={()=>{setUserType("Employee")}}
-            style={userType==="Employee"?selectTabStyle:nonSelectedTabStyle}
+            <div onClick={()=>{setUserType("employee")}}
+            style={userType==="employee"?selectTabStyle:nonSelectedTabStyle}
             >Employee</div>
-            <div onClick={()=>{setUserType("Customer")}} style={userType==="Customer"?selectTabStyle:nonSelectedTabStyle}>Customer</div>
+            <div onClick={()=>{setUserType("customer")}} style={userType==="customer"?selectTabStyle:nonSelectedTabStyle}>Customer</div>
         </div>
+        <div style={{maxHeight:"80vh",overflow:"auto"}}>
+        {Object.keys(userDetails).map((key)=>
+         key==="DOB"?
+         <>
+         <div style={{marginTop:"32px",textAlign:"left"}}>Enter Date Of Birth</div>
+        
+         <input type="date" style={{marginTop:"16px",width:'100%'}} onChange={(e)=>{
+             const userDetailsInstance=JSON.parse(JSON.stringify(userDetails))
+             userDetailsInstance[key]=e.target.value; setUserDetails(userDetailsInstance)
+            }} value={userDetails[key]}/>
+         </>:
        
-       <div style={{marginTop:"32px",textAlign:"left"}}> User Name:</div>
-       <input type="text" style={{marginTop:"16px",width:'100%'}} onChange={(e)=>{setUserId(e.target.value)}} value={userId}/>
-       <div style={{marginTop:"32px",textAlign:"left"}}>Enter Pass Word:</div>
-       <input type="password" style={{marginTop:"16px",width:"100%"}} onChange={(e)=>{setPassword(e.target.value)}} value={password}/>
-
-       <div style={{marginTop:"32px",textAlign:"left"}}>Confirm Pass Word:</div>
-       <input type="password" style={{marginTop:"16px",width:"100%"}} onChange={(e)=>{setConfirmPassword(e.target.value)}} value={confirmPassword}/>
+        key==="DOJ"?
+        <>
+        <div style={{marginTop:"32px",textAlign:"left"}}>Enter Date Of Joining</div>
+       
+        <input type="date" style={{marginTop:"16px",width:'100%'}} onChange={(e)=>{
+            const userDetailsInstance=JSON.parse(JSON.stringify(userDetails))
+            userDetailsInstance[key]=e.target.value; setUserDetails(userDetailsInstance)
+           }} value={userDetails[key]}/>
+        </>:
+            <>
+            <div style={{marginTop:"32px",textAlign:"left"}}>{key}</div>
+            <input type="text" style={{marginTop:"16px",width:'90%'}} onChange={(e)=>{
+                
+                 const userDetailsInstance=JSON.parse(JSON.stringify(userDetails))
+                 userDetailsInstance[key]=e.target.value; setUserDetails(userDetailsInstance)}} value={userDetails[key]}/>
+            </>
+       
+    )}
+       </div>
+       
        
        <div style={{marginTop:"32px",display:"flex",justifyContent:'space-between'}}>
  
@@ -55,7 +117,7 @@ export const CreateAccount=()=> {
        </div>
     </div>
     </div>
-    </>
+    </div>
   )
 }
 
