@@ -21,7 +21,7 @@ useEffect(() => {
 return (
         <>
             {data ? 
-                <table className="data" style={{display:"flex"}} >
+                <table className="data" style={{display:"flex-wrap"}} >
                 <tr><th>Question ID</th><th>Question</th><th>Question category</th><th>Answer</th><th>Question Status</th><br></br></tr>
             <br></br>
               {data.map(data1 => {
