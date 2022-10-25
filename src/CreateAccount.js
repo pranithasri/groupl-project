@@ -52,7 +52,20 @@ export const CreateAccount=()=> {
        }
    
        useEffect(()=>{
-        setUserDetails({
+        setUserDetails(userType==="employee"?{
+            "Employee Id":"",
+            "First Name":"", 
+            "Middle Name":"", 
+            "Last Name":"",
+            "Email":"",
+            "Contact Number":"",
+            "Department":"", 
+            "SupervisorID":"",
+            "Address":"",
+            "Password":"",
+           "DOJ":null
+           
+           }:{
             "Customer Id":"",
             "First Name":"", 
             "Middle Name":"", 
@@ -63,7 +76,7 @@ export const CreateAccount=()=> {
             "Password":"",
            "DOB":null
            })
-       },[])
+       },[userType])
   return (
     <div >
     <div>CreateAccount</div>

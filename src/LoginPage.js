@@ -27,7 +27,9 @@ export const LoginPage=()=>{
             }).then((res)=>{
                 if(res.status===200)
                 {
-                navigator(`/${userType.toLocaleLowerCase()}/dashboard`)}
+                navigator(`/${userType.toLocaleLowerCase()}/dashboard`)
+                localStorage.setItem(userType.toLowerCase(),userId)
+            }
             }).catch((e)=>{
                 console.log("Error",e)
             })

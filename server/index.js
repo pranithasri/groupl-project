@@ -101,6 +101,7 @@ app.post("/findAccount", (req, res) => {
                     res.send(err);
                     return res;
                 }
+                console.log(req.body["userId"],req.body["password"],"RESULTTT", JSON.parse(JSON.stringify(result)))
                 if (result && JSON.parse(JSON.stringify(result))[0] && JSON.parse(JSON.stringify(result))[0].CustID) {
                     return res.send("user found");
                 }
@@ -132,6 +133,32 @@ app.post("/faq", (req, res) => {
             });
     }
 );
+
+app.get("/employeetickets/:id", (req, res) => {
+
+    db.query(`SELECT * FROM custservice.tickets where EMPID=${req.params["id"]}`, (err, result) => {
+        if (err) {
+            res.status(500);
+            res.send(err);
+            return res;
+        }
+        return res.send(result);
+    });
+}
+);
+
+app.get("/customertickets/:id", (req, res) => {
+   
+     db.query(`SELECT * FROM custservice.tickets where CUSTID=${req.params["id"]}`, (err, result) => {
+         if (err) {
+             res.status(500);
+             res.send(err);
+             return res;
+         }
+         return res.send(result);
+     });
+ }
+ );
 
 // Route to get one post
 
