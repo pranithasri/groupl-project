@@ -120,9 +120,20 @@ app.post("/findAccount", (req, res) => {
     }
 });
 
+app.post("/faq", (req, res) => {
+   
+            db.query(`SELECT * FROM custservice.faq`, (err, result) => {
+                if (err) {
+                    res.status(500);
+                    res.send(err);
+                    return res;
+                }
+                return res.send(result);
+            });
+    }
+);
 
 // Route to get one post
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`)
