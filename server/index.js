@@ -160,12 +160,12 @@ app.get("/customertickets/:id", (req, res) => {
  }
  );
 
-app.post("/employeeFeedback", (req, res) => {
+app.get("/employeeFeedback/:id", (req, res) => {
 
     db.query(`select feed.CustID, feed.TicketNumber, feed.Feedback, CONCAT(cust.FirstName , " ", cust.LastName  )as customerName,
 cust.Email,ticket.IssueType, ticket.IssueDescription from feedback feed
 inner join customer cust on feed.CustID = cust.CustID
-inner join tickets ticket on ticket.TicketNumber = feed.TicketNumber ;`, (err, result) => {
+inner join tickets ticket on ticket.TicketNumber = feed.TicketNumber where ticket.EmpID = ${req.params["id"]} ;`, (err, result) => {
         if (err) {
             res.status(500);
             res.send(err);
