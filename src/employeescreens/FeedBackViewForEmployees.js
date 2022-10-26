@@ -7,9 +7,8 @@ export const FeedBackViewForEmployees = () => {
   const [data, setData] = useState('');
   const getAllData = () => {
     axios
-      .post("http://localhost:3002/employeeFeedback")
+      .get(`http://localhost:3002/employeeFeedback/${localStorage.getItem("employee")}`)
       .then((response) => {
-        console.log(response.data);
         setData(response.data);
       })
       .catch((error) => {
