@@ -160,6 +160,45 @@ app.get("/customertickets/:id", (req, res) => {
  }
  );
 
+app.post("/employeeFeedback", (req, res) => {
+
+    db.query(`select feed.CustID, feed.TicketNumber, feed.Feedback, CONCAT(cust.FirstName , " ", cust.LastName  )as customerName,
+cust.Email,ticket.IssueType, ticket.IssueDescription from feedback feed
+inner join customer cust on feed.CustID = cust.CustID
+inner join tickets ticket on ticket.TicketNumber = feed.TicketNumber ;`, (err, result) => {
+        if (err) {
+            res.status(500);
+            res.send(err);
+            return res;
+        }
+        return res.send(result);
+    });
+}
+);
+
+app.post("/submitFeedback", (req, res) => {
+
+
+    try {
+
+        db.query(`INSERT INTO CustService.feedback (CustID, TicketNumber, Feedback) VALUES (${req.body["custID"]},"${req.body["ticketNumber"]}","${req.body["feedback"]}")`, (err, result) => {
+            if (err) {
+                console.log(err)
+                res.status = 500;
+                return res.send("Unable to submit the feedback");
+            }
+
+            res.send("feedback submitted successfully");
+
+        });
+    }
+
+    catch (e) {
+        console.log("Error", e)
+    }
+
+});
+
 // Route to get one post
 
 app.listen(PORT, () => {
